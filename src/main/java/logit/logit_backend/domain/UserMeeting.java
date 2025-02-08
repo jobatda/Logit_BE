@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter  @Setter
 public class UserMeeting {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_meeting_id")
     private Long id;
 
@@ -19,4 +19,11 @@ public class UserMeeting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;
+
+    @Column(name = "user_meeting_status")
+    private boolean userMeetingStatus;
+
+    @Column(name = "mbti")
+    private String mbti;
+
 }

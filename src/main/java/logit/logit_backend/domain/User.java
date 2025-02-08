@@ -11,7 +11,7 @@ import java.util.List;
 @Getter @Setter
 public class User {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long id;
 
@@ -30,9 +30,23 @@ public class User {
     @Column(name = "user_status_msg")
     private String statusMsg;
 
+    @Column(name = "user_age")
+    private int age;
+
+    @Enumerated(EnumType.STRING) // Enum을 DB에 문자열로 저장
+    @Column(name = "user_sex")
+    private UserSex userSex;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserMeeting> userMeetings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Course> courses = new ArrayList<>();
+
+    public enum UserSex{
+        male, female
+    }
 }

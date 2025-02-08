@@ -12,7 +12,7 @@ import java.util.List;
 @Getter @Setter
 public class Meeting {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meeting_id", nullable = false)
     private Long id;
 
@@ -25,11 +25,21 @@ public class Meeting {
     @Column(name = "meeting_content", nullable = false)
     private String content;
 
-    @Column(name = "meeting_date", nullable = false)
-    private LocalDateTime date;
+    @Column(name = "meeting_start_date", nullable = false)
+    private LocalDateTime startDate;
+
+    @Column(name = "meeting_end_date", nullable = false)
+    private LocalDateTime endDate;
 
     @Column(name = "meeting_location", nullable = false)
     private String location;
+
+    @Column(name = "meeting_cnt", nullable = false)
+    private int cnt;
+
+    @Column(name = "meeting_content_img")
+    private String contentImg;
+
 
     @OneToMany(mappedBy = "meeting", fetch = FetchType.LAZY)
     private List<UserMeeting> userMeetings = new ArrayList<>();

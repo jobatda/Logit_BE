@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class Post {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id", nullable = false)
     private Long id;
 
@@ -26,4 +26,15 @@ public class Post {
 
     @Column(name = "post_date", nullable = false)
     private LocalDateTime date; // 작성시간
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "post_category" ,nullable = false)
+    private Category category;
+
+    @Column(name = "post_location")
+    private String location;
+
+    public enum Category{ // 피드, 축제, 체험
+        feed, festival, experience
+    }
 }
