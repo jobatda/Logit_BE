@@ -19,25 +19,21 @@ public class Post {
     private User user;
 
     @Column(name = "post_title", nullable = false)
-    private String title;
+    private String postTitle;
 
     @Column(name = "post_content", nullable = false)
-    private String content;
+    private String postContent;
 
     @Column(name = "post_date", nullable = false)
-    private LocalDateTime date; // 작성시간
+    private LocalDateTime postDate; // 작성시간
 
     @Enumerated(EnumType.STRING)
     @Column(name = "post_category" ,nullable = false)
-    private Category category;
+    private PostCategory postCategory;
 
     @Column(name = "post_location")
-    private String location;
+    private String postLocation;
 
     @Column(name = "post_travel_num", nullable = false)
-    private int travelNum;
-
-    public enum Category{ // 피드, 축제, 체험
-        feed, festival, experience
-    }
+    private int postTravelNum;
 }

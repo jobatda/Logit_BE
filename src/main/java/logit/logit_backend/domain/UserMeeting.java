@@ -10,7 +10,7 @@ public class UserMeeting {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_meeting_id")
-    private Long id;
+    private Long userMeetingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "login_id")
@@ -24,6 +24,6 @@ public class UserMeeting {
     private boolean userMeetingStatus;
 
     @Column(name = "user_meeting_mbti")
-    private String mbti;
+    private String userMeetingMbti;
 
 }

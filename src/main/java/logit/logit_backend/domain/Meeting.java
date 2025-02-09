@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,34 +14,34 @@ public class Meeting {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meeting_id", nullable = false)
-    private Long id;
+    private Long meetingId;
 
     @Column(name = "meeting_host_id", nullable = false)
-    private Long hostId;
+    private String meetingHostId;
 
     @Column(name = "meeting_title", nullable = false)
-    private String title;
+    private String meetingTitle;
 
     @Column(name = "meeting_content", nullable = false)
-    private String content;
+    private String meetingContent;
 
     @Column(name = "meeting_start_date", nullable = false)
-    private LocalDateTime startDate;
+    private LocalDate meetingStartDate;
 
     @Column(name = "meeting_end_date", nullable = false)
-    private LocalDateTime endDate;
+    private LocalDate meetingEndDate;
 
     @Column(name = "meeting_location", nullable = false)
-    private String location;
+    private String meetingLocation;
 
     @Column(name = "meeting_now_cnt", nullable = false)
-    private int nowCnt = 1;
+    private int meetingNowCnt = 1;
 
     @Column(name = "meeting_max_cnt", nullable = false)
-    private int maxCnt;
+    private int meetingMaxCnt;
 
     @Column(name = "meeting_content_img")
-    private String contentImg;
+    private String meetingContentImg;
 
     @OneToMany(mappedBy = "meeting", fetch = FetchType.LAZY)
     private List<UserMeeting> userMeetings = new ArrayList<>();

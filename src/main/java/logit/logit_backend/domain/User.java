@@ -13,32 +13,32 @@ public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
-    private Long id;
+    private Long userId;
 
     @Column(name = "user_login_id", nullable = false, unique = true)
-    private String loginId;
+    private String userLoginId;
 
     @Column(name = "user_login_pw", nullable = false)
-    private String loginPw;
+    private String userLoginPw;
 
     @Column(name = "user_name", nullable = false)
-    private String name;
+    private String userName;
 
     @Column(name = "user_img_path")
-    private String imagePath;
+    private String userImagePath;
 
     @Column(name = "user_status_msg")
-    private String statusMsg;
+    private String userStatusMsg;
 
     @Column(name = "user_age")
-    private int age;
+    private int userAge;
 
     @Enumerated(EnumType.STRING) // Enum을 DB에 문자열로 저장
     @Column(name = "user_sex")
     private UserSex userSex;
 
     @Column(name = "user_temperature", nullable = false)
-    private int temperature = 36;
+    private int userTemperature = 36;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
@@ -48,8 +48,4 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Course> courses = new ArrayList<>();
-
-    public enum UserSex{
-        male, female
-    }
 }
