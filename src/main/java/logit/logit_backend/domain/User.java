@@ -24,7 +24,7 @@ public class User {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @Column(name = "user_img_path")
+    @Column(name = "user_image_path")
     private String userImagePath;
 
     @Column(name = "user_status_msg")
@@ -37,7 +37,7 @@ public class User {
     @Column(name = "user_sex")
     private UserSex userSex;
 
-    @Column(name = "user_temperature", nullable = false)
+    @Column(name = "user_temperature", nullable = false, columnDefinition = "INT DEFAULT 36")
     private int userTemperature = 36;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

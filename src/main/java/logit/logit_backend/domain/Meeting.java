@@ -34,14 +34,14 @@ public class Meeting {
     @Column(name = "meeting_location", nullable = false)
     private String meetingLocation;
 
-    @Column(name = "meeting_now_cnt", nullable = false)
+    @Column(name = "meeting_now_cnt", nullable = false, columnDefinition = "INT DEFAULT 1")
     private int meetingNowCnt = 1;
 
     @Column(name = "meeting_max_cnt", nullable = false)
     private int meetingMaxCnt;
 
-    @Column(name = "meeting_content_img")
-    private String meetingContentImg;
+    @Column(name = "meeting_content_image")
+    private String meetingContentImage;
 
     @OneToMany(mappedBy = "meeting", fetch = FetchType.LAZY)
     private List<UserMeeting> userMeetings = new ArrayList<>();

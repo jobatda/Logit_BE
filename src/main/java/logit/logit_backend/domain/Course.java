@@ -6,28 +6,28 @@ import jakarta.persistence.GenerationType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter @Setter
 public class Course {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id", nullable = false)
-    private Long id;
+    @Column(name = "course_id", nullable = false)
+    private Long courseId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "course_img")
-    private String courseImg;
+    @Column(name = "course_image")
+    private String courseImage;
 
     @Column(name = "course_start_date", nullable = false)
-    private LocalDateTime courseStartDate;
+    private LocalDate courseStartDate;
 
     @Column(name = "course_end_date", nullable = false)
-    private LocalDateTime courseEndDate;
+    private LocalDate courseEndDate;
 
     @Column(name = "course_title", nullable = false)
     private String courseTitle;
