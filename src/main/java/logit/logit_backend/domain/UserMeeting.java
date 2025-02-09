@@ -23,7 +23,7 @@ public class UserMeeting {
     @Column(name = "user_meeting_status")
     private boolean userMeetingStatus;
 
-    @Column(name = "mbti")
+    @Column(name = "user_meeting_mbti")
     private String mbti;
 
 }

@@ -21,7 +21,7 @@ public class User {
     @Column(name = "user_login_pw", nullable = false)
     private String loginPw;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false)
     private String name;
 
     @Column(name = "user_img_path")
@@ -36,6 +36,9 @@ public class User {
     @Enumerated(EnumType.STRING) // Enum을 DB에 문자열로 저장
     @Column(name = "user_sex")
     private UserSex userSex;
+
+    @Column(name = "user_temperature", nullable = false)
+    private int temperature = 36;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();

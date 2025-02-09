@@ -31,6 +31,4 @@ public class Course {
 
     @Column(name = "course_title", nullable = false)
     private String courseTitle;
-
-
 }

@@ -34,6 +34,9 @@ public class Post {
     @Column(name = "post_location")
     private String location;
 
+    @Column(name = "post_travel_num", nullable = false)
+    private int travelNum;
+
     public enum Category{ // 피드, 축제, 체험
         feed, festival, experience
     }
