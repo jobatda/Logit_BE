@@ -9,6 +9,7 @@ import lombok.Setter;
 public class CreatePostForm {
     private String postTitle;
     private String postContent;
+
     @Schema(example = "feed/festival/experience")
     private PostCategory postCategory;
     private String postLocation;

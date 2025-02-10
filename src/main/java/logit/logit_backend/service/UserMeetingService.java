@@ -63,9 +63,7 @@ public class UserMeetingService {
 
             memberForms.add(
                     new MemberForm(
-                            user.getUserName(),
-                            user.getUserAge(),
-                            user.getUserSex(),
+                            user,
                             Base64.getEncoder().encodeToString(image),
                             userMeeting.getUserMeetingMbti(),
                             user.getUserLoginId().equals(meeting.getMeetingHostId())
@@ -73,10 +71,6 @@ public class UserMeetingService {
             );
         }
 
-        return new GetUserMeetingForm(
-                memberForms,
-                meeting.getMeetingNowCnt(),
-                meeting.getMeetingMaxCnt()
-        );
+        return new GetUserMeetingForm(memberForms, meeting);
     }
 }

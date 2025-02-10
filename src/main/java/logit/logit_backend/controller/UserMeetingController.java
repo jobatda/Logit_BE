@@ -75,6 +75,11 @@ public class UserMeetingController {
                             mediaType = "application/json",
                             schema = @Schema(example = "{ \"error\": \"message\" }")
                     )),
+            @ApiResponse(responseCode = "500", description = "서버 내부 오류",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
     }) // Swagger 문서 작성
     @GetMapping(value = "/{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getMembers(@PathVariable Long meetingId) {
