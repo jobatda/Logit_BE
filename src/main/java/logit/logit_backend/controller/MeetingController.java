@@ -1,5 +1,12 @@
 package logit.logit_backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import logit.logit_backend.controller.form.CreateMeetingForm;
 import logit.logit_backend.controller.form.GetMeetingForm;
 import logit.logit_backend.service.MeetingService;
@@ -21,6 +28,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/meeting")
+@Tag(name = "Meeting", description = "Meeting API")
 public class MeetingController {
 
     private final MeetingService meetingService;
@@ -31,6 +39,24 @@ public class MeetingController {
         this.meetingService = meetingService;
     }
 
+    @Operation(summary = "Create meeting", description = "번개 게시물을 생성한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"meetingId\": \"1\" }")
+                    )),
+            @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> createMeeting(
             @ModelAttribute CreateMeetingForm form,
@@ -55,6 +81,24 @@ public class MeetingController {
         }
     }
 
+    @Operation(summary = "Get meeting home", description = "모든 번개 게시물을 가져온다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetMeetingForm.class))
+                    )),
+            @ApiResponse(responseCode = "404", description = "번개 게시물이 생성되지 않았습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getMeetingHome() {
         try {
@@ -72,8 +116,26 @@ public class MeetingController {
         }
     }
 
-    @GetMapping(params = "meetingId", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchMeetingById(@RequestParam Long meetingId) {
+    @Operation(summary = "Get meeting by meetingId", description = "번개 ID를 기반으로 1개의 번개게시물을 가져온다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetMeetingForm.class)
+                    )),
+            @ApiResponse(responseCode = "404", description = "해당 ID와 일치하는 게시물이 없습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
+    @GetMapping(value = "{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchMeetingById(@PathVariable Long meetingId) {
         try {
             GetMeetingForm meeting = meetingService.getMeetingById(meetingId);
 
@@ -89,8 +151,26 @@ public class MeetingController {
         }
     }
 
-    @GetMapping(params = "title", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchMeetingsByTitle(@RequestParam String title) {
+    @Operation(summary = "Get meetings by title", description = "title 을 기반으로 검색해서 번게 게시물을 가져온다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetMeetingForm.class))
+                    )),
+            @ApiResponse(responseCode = "404", description = "title 과 일치하는 게시물이 존재하지 않습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
+    @GetMapping(value = "{title}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchMeetingsByTitle(@PathVariable String title) {
         try {
             List<GetMeetingForm> meetings = meetingService.getMeetingsByTitle(title);
 

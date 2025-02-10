@@ -1,5 +1,11 @@
 package logit.logit_backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import logit.logit_backend.controller.form.CreateCourseForm;
 import logit.logit_backend.domain.Course;
 import logit.logit_backend.service.CourseService;
@@ -17,6 +23,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/course")
+@Tag(name = "Course", description = "Course API")
 public class CourseController {
     private final CourseService courseService;
     private final String UPLOAD_DIR = "/app/uploads/image/course/";
@@ -26,6 +33,24 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    @Operation(summary = "Create courese", description = "여행 로드맵을 생성한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"courseId\": \"1\" }")
+                    )),
+            @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
     @PostMapping(value = "/{loginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> createCourse(
             @PathVariable String loginId,
