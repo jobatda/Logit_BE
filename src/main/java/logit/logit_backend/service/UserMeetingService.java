@@ -23,7 +23,7 @@ public class UserMeetingService {
         this.meetingRepository = meetingRepository;
     }
 
-    public void create(CreateUserMeetingForm createUserMeetingForm) {
+    public UserMeeting create(CreateUserMeetingForm createUserMeetingForm) {
         UserMeeting userMeeting = new UserMeeting();
         User user = userRepository.findByUserLoginId(createUserMeetingForm.getUserLoginId()).orElseThrow();
         Meeting meeting = meetingRepository.findByMeetingId(createUserMeetingForm.getMeetingId()).orElseThrow();
@@ -35,5 +35,7 @@ public class UserMeetingService {
         }
         userMeeting.setUserMeetingStatus(false);
         userMeetingRepository.save(userMeeting);
+
+        return userMeeting;
     }
 }

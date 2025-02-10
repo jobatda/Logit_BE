@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{loginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateUser(
+    public ResponseEntity<Map<String, Object>> updateUser(
             @PathVariable String loginId,
             @RequestPart(value = "userImg", required = false) MultipartFile userImg,
             @ModelAttribute UpdateUserForm form) {
@@ -41,11 +42,17 @@ public class UserController {
             }
             userService.update(form, imgPath, loginId);
 
-            return ResponseEntity.status(HttpStatus.OK).body("Successfully updated user");
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(Map.of("userLoginId", loginId));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity
+                    .internalServerError()
+                    .body(Map.of("error", e.getMessage()));
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
         }
     }
 }
