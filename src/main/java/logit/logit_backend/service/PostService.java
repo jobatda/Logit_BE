@@ -93,6 +93,17 @@ public class PostService {
         return allPostsCategory;
     }
 
+    public GetPostForm getPostByPostId(Long postId) throws IOException{
+        Post post = postRepository.findByPostId(postId).orElseThrow();
+        String imageField = post.getPostContentImage();
+
+        if (imageField != null && !imageField.isEmpty()) {
+            return new GetPostForm(post, LogitUtils.encodeImagesBase64(imageField));
+        }
+
+        return new GetPostForm(post, List.of());
+    }
+
 }
 
 

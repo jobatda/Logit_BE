@@ -32,4 +32,6 @@ public class GetPostForm {
         this.postCategory = post.getPostCategory();
         this.postTravelNum = post.getPostTravelNum();
     }
+
+
 }
