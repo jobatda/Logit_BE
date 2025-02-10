@@ -100,7 +100,27 @@ public class MeetingService {
         List<GetMeetingForm> allMeetings = new ArrayList<>();
 
         if (meetings.isEmpty()) {
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "생성된 번개가 없습니다");
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
+        }
+        for (Meeting m : meetings) {
+            String imageField = m.getMeetingContentImage();
+            List<String> images = List.of();
+
+            if (imageField != null && !imageField.isEmpty()) {
+                images = LogitUtils.encodeImagesBase64(imageField);
+            }
+            allMeetings.add(new GetMeetingForm(m, images));
+        }
+
+        return allMeetings;
+    }
+
+    public List<GetMeetingForm> getMeetingsByTitle(String title) throws IOException {
+        List<Meeting> meetings = meetingRepository.findByMeetingTitleContaining(title);
+        List<GetMeetingForm> allMeetings = new ArrayList<>();
+
+        if (meetings.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
         }
         for (Meeting m : meetings) {
             String imageField = m.getMeetingContentImage();
