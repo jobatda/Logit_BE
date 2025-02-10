@@ -114,4 +114,14 @@ public class MeetingService {
 
         return allMeetings;
     }
+
+    public GetMeetingForm getMeetingById(Long meetingId) throws IOException {
+        Meeting meeting = meetingRepository.findByMeetingId(meetingId).orElseThrow();
+        String imageField = meeting.getMeetingContentImage();
+
+        if (imageField != null && !imageField.isEmpty()) {
+            return new GetMeetingForm(meeting, LogitUtils.encodeImagesBase64(imageField));
+        }
+        return new GetMeetingForm(meeting, List.of());
+    }
 }
