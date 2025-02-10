@@ -80,7 +80,7 @@ public class PostController {
 
     }
 
-    @Operation(summary = "getPostsByCategory", description = "category 별로 post 출력")
+    @Operation(summary = "post?category=feed,festival,experience", description = "category 별로 post 출력")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -99,7 +99,7 @@ public class PostController {
                     )),
     }) // Swagger 문서 작성
     @GetMapping(params = "category", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPostsByCategory(@RequestParam PostCategory category) {
+    public ResponseEntity<?> getPostsByCategory(@RequestParam  PostCategory category) {
         try {
             List<GetPostForm> PostCategoryList = postService.getPostByCategory(category);
 
@@ -114,4 +114,40 @@ public class PostController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
+
+    @Operation(summary = "post?postId=int", description = "postId에 맞는 post글 호출")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetPostForm.class))
+                    )),
+            @ApiResponse(responseCode = "404", description = "postId와 일치하는 게시물이 존재하지 않습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
+    @GetMapping(params = "postId", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPostByPostId(@RequestParam Long postId){
+        try{
+            GetPostForm getPostByPostIdOne = postService.getPostByPostId(postId);
+            return ResponseEntity.ok(getPostByPostIdOne);
+
+        }catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (IOException e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
 }
