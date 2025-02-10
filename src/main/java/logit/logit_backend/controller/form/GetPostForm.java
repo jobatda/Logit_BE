@@ -2,7 +2,6 @@ package logit.logit_backend.controller.form;
 
 import logit.logit_backend.domain.Post;
 import logit.logit_backend.domain.PostCategory;
-import logit.logit_backend.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +31,5 @@ public class GetPostForm {
         this.postCategory = post.getPostCategory();
         this.postTravelNum = post.getPostTravelNum();
     }
-
 
 }

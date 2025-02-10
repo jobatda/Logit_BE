@@ -2,6 +2,7 @@ package logit.logit_backend.service;
 
 import logit.logit_backend.controller.form.CreatePostForm;
 import logit.logit_backend.controller.form.GetPostForm;
+import logit.logit_backend.controller.form.GetPostImgForm;
 import logit.logit_backend.domain.Post;
 import logit.logit_backend.domain.PostCategory;
 import logit.logit_backend.domain.User;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -103,6 +105,29 @@ public class PostService {
 
         return new GetPostForm(post, List.of());
     }
+
+    public List<GetPostImgForm> getPostImgByUserId(Long userLoginId) throws IOException{
+        List<Post> PostList = postRepository.getPostImgByUserId(userLoginId);
+        List<GetPostImgForm> allPostImg = new ArrayList<>();
+
+
+        if(PostList.isEmpty()){
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
+        }
+        for (Post post : PostList) {
+            //String imageField = post.getPostContentImage();
+            //List<String> images = List.of();
+
+            //if (imageField != null && !imageField.isEmpty()) {
+            //    images = LogitUtils.encodeImagesBase64(imageField);
+            //    images.add(imageField);
+            //}
+
+            allPostImg.add(new GetPostImgForm(post));
+        }
+        return allPostImg;
+    }
+
 
 }
 
