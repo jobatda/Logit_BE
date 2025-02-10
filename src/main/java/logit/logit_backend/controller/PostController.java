@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RequestMapping("/post")
@@ -26,7 +27,7 @@ public class PostController {
     }
 
     @PostMapping(value = "/{loginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> createPost(
+    public ResponseEntity<Map<String, Object>> createPost(
             @PathVariable String loginId,
             @RequestPart(value = "postImage", required = false) List<MultipartFile> postImages,
             @ModelAttribute CreatePostForm form) {
@@ -35,11 +36,17 @@ public class PostController {
             Post post = postService.create(form, loginId);
             postService.updateImages(post, postImages, UPLOAD_DIR);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Successfully created post");
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(Map.of("postId: ", post.getPostId()));
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity
+                    .internalServerError()
+                    .body(Map.of("error: ", e.getMessage()));
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error: ", e.getMessage()));
         }
 
     }

@@ -1,6 +1,7 @@
 package logit.logit_backend.service;
 
 import logit.logit_backend.controller.form.CreateMeetingForm;
+import logit.logit_backend.controller.form.GetMeetingForm;
 import logit.logit_backend.domain.Meeting;
 import logit.logit_backend.domain.User;
 import logit.logit_backend.domain.UserMeeting;
@@ -9,6 +10,7 @@ import logit.logit_backend.repository.MeetingRepository;
 import logit.logit_backend.repository.UserMeetingRepository;
 import logit.logit_backend.repository.UserRepository;
 
+import logit.logit_backend.util.LogitUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,8 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -92,5 +93,25 @@ public class MeetingService {
             meeting.setMeetingContentImage(String.join("\n", imagePaths));
             meetingRepository.save(meeting);
         }
+    }
+
+    public List<GetMeetingForm> getAllMeetings() throws IOException {
+        List<Meeting> meetings = meetingRepository.findAll();
+        List<GetMeetingForm> allMeetings = new ArrayList<>();
+
+        if (meetings.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "생성된 번개가 없습니다");
+        }
+        for (Meeting m : meetings) {
+            String imageField = m.getMeetingContentImage();
+            List<String> images = List.of();
+
+            if (imageField != null && !imageField.isEmpty()) {
+                images = LogitUtils.encodeImagesBase64(imageField);
+            }
+            allMeetings.add(new GetMeetingForm(m, images));
+        }
+
+        return allMeetings;
     }
 }
