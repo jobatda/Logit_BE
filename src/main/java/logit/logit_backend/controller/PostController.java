@@ -157,7 +157,7 @@ public class PostController {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
                             mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = GetPostForm.class))
+                            array = @ArraySchema(schema = @Schema(implementation = GetPostImgForm.class))
                     )),
             @ApiResponse(responseCode = "404", description = "userLoginId와 일치하는 게시물이 존재하지 않습니다.",
                     content = @Content(
