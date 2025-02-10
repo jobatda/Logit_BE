@@ -38,7 +38,7 @@ public class MeetingService {
         this.userMeetingRepository = userMeetingRepository;
     }
 
-    public Meeting create(CreateMeetingForm form) {
+    public Meeting create(CreateMeetingForm form) { // 새로운 번개 모임 생성
         User user = userRepository.findByUserLoginId(form.getMeetingHostId()).orElseThrow();
         Meeting meeting = new Meeting();
         UserMeeting userMeeting = new UserMeeting();
@@ -75,6 +75,7 @@ public class MeetingService {
         return meeting;
     }
 
+    // 번개 모임의 이미지 업로드 및 저장
     public void updateImages(Meeting meeting, List<MultipartFile> meetingImages, String UPLOAD_DIR) throws IOException {
         String imagePath;
         List<String> imagePaths = new ArrayList<>();
@@ -95,6 +96,7 @@ public class MeetingService {
         }
     }
 
+    // 모든 모임 조회
     public List<GetMeetingForm> getAllMeetings() throws IOException {
         List<Meeting> meetings = meetingRepository.findAll();
         List<GetMeetingForm> allMeetings = new ArrayList<>();
@@ -115,6 +117,7 @@ public class MeetingService {
         return allMeetings;
     }
 
+    // 특정 검색어 제목 모임 조회
     public List<GetMeetingForm> getMeetingsByTitle(String title) throws IOException {
         List<Meeting> meetings = meetingRepository.findByMeetingTitleContaining(title);
         List<GetMeetingForm> allMeetings = new ArrayList<>();
@@ -135,6 +138,7 @@ public class MeetingService {
         return allMeetings;
     }
 
+    // 특정 ID로 모임 조회 ?? 리스트 아닌지?
     public GetMeetingForm getMeetingById(Long meetingId) throws IOException {
         Meeting meeting = meetingRepository.findByMeetingId(meetingId).orElseThrow();
         String imageField = meeting.getMeetingContentImage();

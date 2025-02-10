@@ -1,12 +1,17 @@
 package logit.logit_backend.service;
 
 import logit.logit_backend.controller.form.CreatePostForm;
+import logit.logit_backend.controller.form.GetPostForm;
 import logit.logit_backend.domain.Post;
+import logit.logit_backend.domain.PostCategory;
 import logit.logit_backend.domain.User;
 import logit.logit_backend.repository.PostRepository;
 import logit.logit_backend.repository.UserRepository;
+import logit.logit_backend.util.LogitUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -66,4 +71,53 @@ public class PostService {
             postRepository.save(post);
         }
     }
+
+    // 카테고리별 post 조회
+    public List<GetPostForm> getPostByCategory(PostCategory category) throws IOException{
+        List<Post> PostCategoryList = postRepository.findByPostCategory(category);
+        List<GetPostForm> allPostsCategory = new ArrayList<>();
+
+        if(PostCategoryList.isEmpty()){
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
+        }
+        for (Post post : PostCategoryList) {
+            String imageField = post.getPostContentImage();
+            List<String> images = List.of();
+
+            if (imageField != null && !imageField.isEmpty()) {
+                images = LogitUtils.encodeImagesBase64(imageField);
+            }
+
+            allPostsCategory.add(new GetPostForm(post,images));
+        }
+        return allPostsCategory;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
