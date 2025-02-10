@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/meeting")
@@ -62,11 +63,28 @@ public class MeetingController {
             return ResponseEntity.ok(allMeetings);
         } catch (IOException e) {
             return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .internalServerError()
                     .body(Map.of("error", e.getMessage()));
         } catch (HttpClientErrorException e) {
             return ResponseEntity
                     .status(e.getStatusCode())
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping(params = "meetingId", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchMeetingById(@RequestParam Long meetingId) {
+        try {
+            GetMeetingForm meeting = meetingService.getMeetingById(meetingId);
+
+            return ResponseEntity.ok(meeting);
+        } catch (IOException e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(Map.of("error", e.getMessage()));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", e.getMessage()));
         }
     }
