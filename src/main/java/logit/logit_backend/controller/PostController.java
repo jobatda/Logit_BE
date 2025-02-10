@@ -1,7 +1,10 @@
 package logit.logit_backend.controller;
 
 import logit.logit_backend.controller.form.CreatePostForm;
+import logit.logit_backend.controller.form.GetMeetingForm;
+import logit.logit_backend.controller.form.GetPostForm;
 import logit.logit_backend.domain.Post;
+import logit.logit_backend.domain.PostCategory;
 import logit.logit_backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,5 +52,22 @@ public class PostController {
                     .body(Map.of("error: ", e.getMessage()));
         }
 
+    }
+
+    @GetMapping(params = "category", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPostsByCategory(@RequestParam PostCategory category) {
+        try {
+            List<GetPostForm> PostCategoryList = postService.getPostByCategory(category);
+
+            return ResponseEntity.ok(PostCategoryList);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (IOException e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 }
