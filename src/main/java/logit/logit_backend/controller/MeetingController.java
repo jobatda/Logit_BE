@@ -61,13 +61,13 @@ public class MeetingController {
             List<GetMeetingForm> allMeetings = meetingService.getAllMeetings();
 
             return ResponseEntity.ok(allMeetings);
-        } catch (IOException e) {
-            return ResponseEntity
-                    .internalServerError()
-                    .body(Map.of("error", e.getMessage()));
         } catch (HttpClientErrorException e) {
             return ResponseEntity
                     .status(e.getStatusCode())
+                    .body(Map.of("error", e.getMessage()));
+        } catch (IOException e) {
+            return ResponseEntity
+                    .internalServerError()
                     .body(Map.of("error", e.getMessage()));
         }
     }
@@ -78,13 +78,30 @@ public class MeetingController {
             GetMeetingForm meeting = meetingService.getMeetingById(meetingId);
 
             return ResponseEntity.ok(meeting);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
         } catch (IOException e) {
             return ResponseEntity
                     .internalServerError()
                     .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping(params = "title", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchMeetingsByTitle(@RequestParam String title) {
+        try {
+            List<GetMeetingForm> meetings = meetingService.getMeetingsByTitle(title);
+
+            return ResponseEntity.ok(meetings);
         } catch (NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (IOException e) {
+            return ResponseEntity
+                    .internalServerError()
                     .body(Map.of("error", e.getMessage()));
         }
     }
