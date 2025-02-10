@@ -53,15 +53,10 @@ public class UserMeetingService {
 
     // meetingId 를 기반으로 연관된 유저 찾기
     public GetUserMeetingForm getMembersByMeetingId(Long meetingId) throws IOException {
-        List<UserMeeting> userMeetings = userMeetingRepository.findByMeetingId(meetingId);
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
+        List<UserMeeting> userMeetings = userMeetingRepository.findByMeeting(meeting);
         List<MemberForm> memberForms = new ArrayList<>();
-        Meeting meeting;
 
-        if (userMeetings.isEmpty()) {
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "일치하는 번개가 없습니다.");
-        }
-
-        meeting = userMeetings.getFirst().getMeeting();
         for (UserMeeting userMeeting : userMeetings) {
             User user = userMeeting.getUser();
             byte[] image = readAllBytes(new File(user.getUserImagePath()).toPath());

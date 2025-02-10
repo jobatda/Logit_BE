@@ -83,8 +83,8 @@ public class UserMeetingController {
             GetUserMeetingForm form = userMeetingService.getMembersByMeetingId(meetingId);
             return ResponseEntity.ok(form);
 
-        } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(Map.of("error", e.getMessage()));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
         }
