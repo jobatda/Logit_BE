@@ -10,7 +10,7 @@ import java.util.TimeZone;
 
 @OpenAPIDefinition(
 		servers = {
-				@Server(url = "https://52.79.117.183/api", description = "Default Server URL")
+				@Server(url = "https://travelgo.mooo.com/api", description = "Default Server URL")
 		}
 )
 @SpringBootApplication
