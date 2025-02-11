@@ -41,4 +41,6 @@ public class Post {
     @Column(name = "post_location")
     private String postLocation;
 
+    @Column(name = "post_travel_num")
+    private int postTravelNum;
 }
