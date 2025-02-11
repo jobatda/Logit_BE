@@ -32,7 +32,7 @@ public class UserMeetingController {
         this.userMeetingService = userMeetingService;
     }
 
-    @Operation(summary = "Submit meeting", description = "번개 참여를 신청한다")
+    @Operation(summary = "Submit meeting", description = "여행 번개 게시물1 - 신청하기 버튼")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -63,7 +63,7 @@ public class UserMeetingController {
         }
     }
 
-    @Operation(summary = "Get meeting members", description = "특정 번개에 참여한 유저정보 조회")
+    @Operation(summary = "Get meeting members", description = "여행 번개 게시물2")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(

@@ -38,7 +38,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @Operation(summary = "Create post", description = "피드, 축제, 체험의 게시물을 생성한다.")
+    @Operation(summary = "Create post", description = "여행경험공유 게시물리스트 - 게시물 생성(+ 버튼)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -81,7 +81,7 @@ public class PostController {
 
     }
 
-    @Operation(summary = "getPostsByCategory", description = "category 별로 post 출력")
+    @Operation(summary = "getPostsByCategory", description = "여행경험공유 게시물리스트 - 피드 / 축제 / 체험 중 선택해서 모두 가져오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -116,7 +116,7 @@ public class PostController {
         }
     }
 
-    @Operation(summary = "getPostByPostId", description = "postId에 맞는 post글 호출")
+    @Operation(summary = "getPostByPostId", description = "여행경험공유 게시물리스트 - 게시물 하나 선택")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -152,7 +152,7 @@ public class PostController {
     }
 
 
-    @Operation(summary = "getPostImgByUserId", description = "마이페이지 내가올린 post(게시물)조회")
+    @Operation(summary = "getPostImgByUserId", description = "프로필_마이페이지 - 유저의 피드이미지 모두 가져오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
