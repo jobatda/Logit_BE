@@ -16,8 +16,6 @@ public class Meeting {
     @Column(name = "meeting_id", nullable = false)
     private Long meetingId;
 
-    @Column(name = "meeting_host_id", nullable = false)
-    private String meetingHostId;
 
     @Column(name = "meeting_title", nullable = false)
     private String meetingTitle;

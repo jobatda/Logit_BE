@@ -37,8 +37,6 @@ public class User {
     @Column(name = "user_sex")
     private UserSex userSex;
 
-    @Column(name = "user_temperature", nullable = false, columnDefinition = "INT DEFAULT 36")
-    private int userTemperature = 36;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
