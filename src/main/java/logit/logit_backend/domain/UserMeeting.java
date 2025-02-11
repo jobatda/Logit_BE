@@ -20,8 +20,6 @@ public class UserMeeting {
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;
 
-    @Column(name = "user_meeting_status")
-    private boolean userMeetingStatus;
 
     @Column(name = "user_meeting_mbti")
     private String userMeetingMbti;

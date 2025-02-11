@@ -20,6 +20,14 @@ public class Course {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "course_title")
+    private String courseTitle;
+
+    @Column(name = "course_area")
+    private String courseArea;
+
+    @Column(name = "course_image")
+
     @Column(name = "course_image")
     private String courseImage;
 
