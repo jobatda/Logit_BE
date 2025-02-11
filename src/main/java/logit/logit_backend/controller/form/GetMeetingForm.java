@@ -17,7 +17,7 @@ public class GetMeetingForm {
     private Integer meetingNowCnt;
     private Integer meetingMaxCnt;
     private String meetingLocation;
-    private List<String> meetingContentImages;
+    private List<String> meetingContentImage;
 
     public GetMeetingForm(Meeting meeting, List<String> images) {
         this.meetingId = meeting.getMeetingId();
@@ -28,6 +28,6 @@ public class GetMeetingForm {
         this.meetingNowCnt = meeting.getMeetingNowCnt();
         this.meetingMaxCnt = meeting.getMeetingMaxCnt();
         this.meetingLocation = meeting.getMeetingLocation();
-        this.meetingContentImages = images;
+        this.meetingContentImage = images;
     }
 }

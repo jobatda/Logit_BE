@@ -8,11 +8,12 @@ import java.time.LocalDate;
 
 @Getter @Setter
 public class CreateCourseForm {
+    private Long userId;
     private String courseTitle;
-
+    private String courseArea;
+    private String courseImage;
+    private Integer coursePeriod;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate courseStartDate;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate courseEndDate;
+    private LocalDate courseCreDate;
+    private String courseTheme;
 }

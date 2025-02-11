@@ -50,6 +50,7 @@ public class MeetingService {
                 form.getMeetingStartDate() != null &&
                 form.getMeetingEndDate() != null &&
                 form.getMeetingLocation() != null &&
+                form.getMeetingNowCnt() != null &&
                 form.getMeetingMaxCnt() != null) {
             meeting.setMeetingHostId(form.getMeetingHostId());
             meeting.setMeetingTitle(form.getMeetingTitle());
@@ -57,6 +58,7 @@ public class MeetingService {
             meeting.setMeetingStartDate(form.getMeetingStartDate());
             meeting.setMeetingEndDate(form.getMeetingEndDate());
             meeting.setMeetingLocation(form.getMeetingLocation());
+            meeting.setMeetingNowCnt(form.getMeetingNowCnt());
             meeting.setMeetingMaxCnt(form.getMeetingMaxCnt());
         } else {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "필드가 잘못되었습니다.");
@@ -138,14 +140,14 @@ public class MeetingService {
         return allMeetings;
     }
 
-    // 특정 ID로 모임 조회 ?? 리스트 아닌지?
+
     public GetMeetingForm getMeetingById(Long meetingId) throws IOException {
         Meeting meeting = meetingRepository.findByMeetingId(meetingId).orElseThrow();
-        String imageField = meeting.getMeetingContentImage();
+        //String imageField = meeting.getMeetingContentImage();
 
-        if (imageField != null && !imageField.isEmpty()) {
-            return new GetMeetingForm(meeting, LogitUtils.encodeImagesBase64(imageField));
-        }
+//        if (imageField != null && !imageField.isEmpty()) {
+//            return new GetMeetingForm(meeting, LogitUtils.encodeImagesBase64(imageField));
+//        }
         return new GetMeetingForm(meeting, List.of());
     }
 }
