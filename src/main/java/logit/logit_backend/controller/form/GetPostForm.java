@@ -18,6 +18,7 @@ public class GetPostForm {
     private LocalDateTime postDate; // 작성시간
     private String postLocation;
     private PostCategory postCategory;
+    private int postTravelNum;
 
     public GetPostForm(Post post, List<String> images) {
         this.userId = post.getUser().getUserId();
@@ -28,6 +29,7 @@ public class GetPostForm {
         this.postDate = post.getPostDate();
         this.postLocation = post.getPostLocation();
         this.postCategory = post.getPostCategory();
+        this.postTravelNum = post.getPostTravelNum();
     }
 
 }
