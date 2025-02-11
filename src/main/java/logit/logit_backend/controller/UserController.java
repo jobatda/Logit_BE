@@ -37,7 +37,7 @@ public class UserController {
     }
 
 
-    @Operation(summary = "Update user profile", description = "특정 유저의 정보를 수정한다.")
+    @Operation(summary = "Update user profile", description = "프로필_마이페이지 - 프로필 편집")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
             content = @Content(

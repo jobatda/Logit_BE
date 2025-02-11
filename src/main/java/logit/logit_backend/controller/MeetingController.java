@@ -39,7 +39,7 @@ public class MeetingController {
         this.meetingService = meetingService;
     }
 
-    @Operation(summary = "Create meeting", description = "번개 게시물을 생성한다.")
+    @Operation(summary = "Create meeting", description = "번개 생성")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -81,7 +81,7 @@ public class MeetingController {
         }
     }
 
-    @Operation(summary = "Get meeting home", description = "모든 번개 게시물을 가져온다.")
+    @Operation(summary = "Get meeting home", description = "번개 홈 - 모든 번개 가져오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -116,7 +116,7 @@ public class MeetingController {
         }
     }
 
-    @Operation(summary = "Get meeting by meetingId", description = "번개 ID를 기반으로 1개의 번개게시물을 가져온다.")
+    @Operation(summary = "Get meeting by meetingId", description = "번개 홈 - 번개 하나 선택")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -151,7 +151,7 @@ public class MeetingController {
         }
     }
 
-    @Operation(summary = "Get meetings by title", description = "title 을 기반으로 검색해서 번게 게시물을 가져온다.")
+    @Operation(summary = "Get meetings by title", description = "번개 홈 - 제목으로 검색")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(

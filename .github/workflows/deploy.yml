@@ -1,7 +1,9 @@
 name: Deploy Backend
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - deploy
 
 jobs:
   deploy:
@@ -23,3 +25,17 @@ jobs:
             --cache-to=type=inline \
             -t ${{ secrets.DOCKER_USERNAME }}/logit_backend:latest \
             -t ${{ secrets.DOCKER_USERNAME }}/logit_backend:$TAG .
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            cd /home/ubuntu/logit
+            sh run.sh
+          EOF
+          rm ~/.ssh/id_rsa
