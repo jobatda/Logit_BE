@@ -43,4 +43,5 @@ public class Post {
 
     @Column(name = "post_travel_num")
     private int postTravelNum;
+
 }

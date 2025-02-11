@@ -20,6 +20,7 @@ public class GetPostForm {
     private PostCategory postCategory;
     private int postTravelNum;
 
+
     public GetPostForm(Post post, List<String> images) {
         this.userId = post.getUser().getUserId();
         this.postId = post.getPostId();
@@ -30,6 +31,7 @@ public class GetPostForm {
         this.postLocation = post.getPostLocation();
         this.postCategory = post.getPostCategory();
         this.postTravelNum = post.getPostTravelNum();
+
     }
 
 }

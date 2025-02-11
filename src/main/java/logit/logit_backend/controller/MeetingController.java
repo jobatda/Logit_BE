@@ -134,17 +134,19 @@ public class MeetingController {
                             schema = @Schema(example = "{ \"error\": \"message\" }")
                     )),
     }) // Swagger 문서 작성
-    @GetMapping(value = "{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/meetingId/{meetingId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> searchMeetingById(@PathVariable Long meetingId) {
         try {
             GetMeetingForm meeting = meetingService.getMeetingById(meetingId);
 
             return ResponseEntity.ok(meeting);
         } catch (NoSuchElementException e) {
+            System.out.println("error1");
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", e.getMessage()));
         } catch (IOException e) {
+            System.out.println("error2");
             return ResponseEntity
                     .internalServerError()
                     .body(Map.of("error", e.getMessage()));
@@ -169,7 +171,7 @@ public class MeetingController {
                             schema = @Schema(example = "{ \"error\": \"message\" }")
                     )),
     }) // Swagger 문서 작성
-    @GetMapping(value = "{title}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/title/{title}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> searchMeetingsByTitle(@PathVariable String title) {
         try {
             List<GetMeetingForm> meetings = meetingService.getMeetingsByTitle(title);

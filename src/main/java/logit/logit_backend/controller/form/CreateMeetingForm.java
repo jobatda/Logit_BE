@@ -20,6 +20,7 @@ public class CreateMeetingForm {
     private LocalDate meetingEndDate;
 
     private String meetingLocation;
+    private Integer meetingNowCnt;
     private Integer meetingMaxCnt;
     private String userMeetingMbti;
 

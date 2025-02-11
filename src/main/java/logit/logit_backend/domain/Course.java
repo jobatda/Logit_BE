@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -20,15 +22,25 @@ public class Course {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "course_title",nullable = false)
+    private String courseTitle;
+
+    @Column(name = "course_area", nullable = false)
+    private String courseArea;
+
     @Column(name = "course_image")
     private String courseImage;
 
-    @Column(name = "course_start_date", nullable = false)
-    private LocalDate courseStartDate;
+    @Column(name = "course_period" ,nullable = false)
+    private int coursePeriod;
+    // 0 = 당일치기 , 1 = 1박 2일 , 2 = 2박 3일
 
-    @Column(name = "course_end_date", nullable = false)
-    private LocalDate courseEndDate;
+    @Column(name = "course_cre_date", nullable = false)
+    private LocalDate courseCreDate;
 
-    @Column(name = "course_title", nullable = false)
-    private String courseTitle;
+    @Column(name = "course_theme", nullable = false)
+    private String courseTheme;
+
+    @OneToMany(mappedBy = "courseId", fetch = FetchType.LAZY)
+    private List<CoursePlan> coursePlans = new ArrayList<>();
 }

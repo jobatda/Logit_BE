@@ -6,19 +6,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import logit.logit_backend.controller.form.CreateCourseForm;
+import logit.logit_backend.controller.form.CreateCoursePlanForm;
 import logit.logit_backend.controller.form.GetCourseForm;
-import logit.logit_backend.controller.form.GetMeetingForm;
-import logit.logit_backend.domain.Course;
-import logit.logit_backend.service.CourseService;
-import logit.logit_backend.service.MeetingService;
+import logit.logit_backend.controller.form.GetCoursePlanForm;
+import logit.logit_backend.domain.CoursePlan;
+import logit.logit_backend.service.CoursePlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,24 +25,22 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Controller
-@RequestMapping("/course")
-public class CourseController {
-    private final CourseService courseService;
+@RequestMapping("/course-plan")
+public class CoursePlanController {
+    private final CoursePlanService coursePlanService;
     private final String UPLOAD_DIR = "/app/uploads/image/course/";
-    private final MeetingService meetingService;
 
     @Autowired
-    public CourseController(CourseService courseService, MeetingService meetingService) {
-        this.courseService = courseService;
-        this.meetingService = meetingService;
+    public CoursePlanController(CoursePlanService coursePlanService) {
+        this.coursePlanService = coursePlanService;
     }
 
-    @Operation(summary = "Create Course", description = " 마이페이지-AI여행플랜 목록생성")
+    @Operation(summary = "Create CoursePlan", description = " AI플래너 세부일정 생성")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(example = "{ \"course_id\": \"1\" }")
+                            schema = @Schema(example = "{ \"plan_id\": \"1\" }")
                     )),
             @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다.",
                     content = @Content(
@@ -57,38 +53,38 @@ public class CourseController {
                             schema = @Schema(example = "{ \"error\": \"message\" }")
                     )),
     }) // Swagger 문서 작성
-    @PostMapping(value = "/{loginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Map<String, Object>> createCourse(
-            @PathVariable String loginId,
-            @ModelAttribute CreateCourseForm form,
-            @RequestPart(value = "courseImages", required = false) List<MultipartFile> courseImages) {
+    @PostMapping(value = "/{courseId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, Object>> createCoursePlan(
+            @PathVariable Long courseId,
+            @ModelAttribute CreateCoursePlanForm form,
+            @RequestPart(value = "coursePlanImages", required = false) List<MultipartFile> coursePlanImages){
         try {
 
-            Course course = courseService.createCourse(form, loginId);
-            courseService.updateImages(course, courseImages, UPLOAD_DIR);
+            CoursePlan coursePlan = coursePlanService.createCoursePlan(form, courseId);
+            coursePlanService.updateImages(coursePlan, coursePlanImages, UPLOAD_DIR);
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(Map.of("courseId", course.getCourseId()));
-        } catch (NoSuchElementException e) {
+                    .body(Map.of("planId", coursePlan.getPlanId()));
+        } catch(NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", e.getMessage()));
-        } catch (IOException e) {
+        } catch(IOException e) {
             return ResponseEntity
                     .internalServerError()
                     .body(Map.of("error", e.getMessage()));
         }
     }
 
-    @Operation(summary = "Get course home", description = "마이페이지-AI여행플랜 목록 - 모든 플랜 가져오기")
+    @Operation(summary = "Get coursePlan home", description = "courseId에 해당하는 플랜 가져오기")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
                             mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = GetCourseForm.class))
+                            array = @ArraySchema(schema = @Schema(implementation = GetCoursePlanForm.class))
                     )),
-            @ApiResponse(responseCode = "404", description = "AI여행플랜 게시물이 생성되지 않았습니다.",
+            @ApiResponse(responseCode = "404", description = "AI플래너 게시물이 생성되지 않았습니다.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(example = "{ \"error\": \"message\" }")
@@ -99,17 +95,17 @@ public class CourseController {
                             schema = @Schema(example = "{ \"error\": \"message\" }")
                     )),
     }) // Swagger 문서 작성
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getCourseAll(){
+    @GetMapping(value = "{courseId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchCoursePlanByCourseId(@PathVariable Long courseId){
         try {
-            List<GetCourseForm> CourseAll = courseService.getCourseAll();
+            List<GetCoursePlanForm> CoursePlans = coursePlanService.searchCoursePlanByCourseId(courseId);
 
-            return ResponseEntity.ok(CourseAll);
-        }catch (HttpClientErrorException e){
+            return ResponseEntity.ok(CoursePlans);
+        } catch (NoSuchElementException e) {
             return ResponseEntity
-                    .status(e.getStatusCode())
+                    .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", e.getMessage()));
-        }catch (IOException e) {
+        } catch (IOException e) {
             return ResponseEntity
                     .internalServerError()
                     .body(Map.of("error", e.getMessage()));
