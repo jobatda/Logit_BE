@@ -30,4 +30,7 @@ public class GetCourseForm {
         this.courseTheme = course.getCourseTheme();
         this.planCnt = planCnt;
     }
+
+    public GetCourseForm() {
+    }
 }
