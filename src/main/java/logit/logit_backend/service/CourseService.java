@@ -29,9 +29,9 @@ public class CourseService {
         this.userRepository = userRepository;
     }
 
-    public Course createCourse(CreateCourseForm form, String loginId) {
+    public Course createCourse(CreateCourseForm form, String userLoginId) {
         Course course = new Course();
-        User user = userRepository.findByUserLoginId(loginId).orElseThrow();
+        User user = userRepository.findByUserLoginId(userLoginId).orElseThrow();
 
         if (form.getCourseTitle() != null &&
             form.getCourseArea() != null &&

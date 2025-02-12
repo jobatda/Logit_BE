@@ -55,14 +55,14 @@ public class CourseController {
                             schema = @Schema(example = "{ \"error\": \"message\" }")
                     )),
     }) // Swagger 문서 작성
-    @PostMapping(value = "/{loginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{userLoginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> createCourse(
-            @PathVariable String loginId,
+            @PathVariable String userLoginId,
             @ModelAttribute CreateCourseForm form,
             @RequestPart(value = "courseImages", required = false) List<MultipartFile> courseImages) {
         try {
 
-            Course course = courseService.createCourse(form, loginId);
+            Course course = courseService.createCourse(form, userLoginId);
             courseService.updateImages(course, courseImages, UPLOAD_DIR);
 
             return ResponseEntity
