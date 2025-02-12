@@ -17,8 +17,9 @@ public class GetCourseForm {
     private int coursePeriod;
     private LocalDate courseCreDate;
     private String courseTheme;
+    private int planCnt;
 
-    public GetCourseForm(Course course, List<String> courseImage) {
+    public GetCourseForm(Course course, List<String> courseImage , int planCnt) {
         this.courseId = course.getCourseId();
         this.userId = course.getUser().getUserId();
         this.courseTitle = course.getCourseTitle();
@@ -27,5 +28,6 @@ public class GetCourseForm {
         this.coursePeriod = course.getCoursePeriod();
         this.courseCreDate = course.getCourseCreDate();
         this.courseTheme = course.getCourseTheme();
+        this.planCnt = planCnt;
     }
 }

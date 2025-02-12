@@ -4,6 +4,7 @@ import logit.logit_backend.controller.form.CreateCourseForm;
 import logit.logit_backend.controller.form.GetCourseForm;
 import logit.logit_backend.domain.Course;
 import logit.logit_backend.domain.User;
+import logit.logit_backend.repository.CoursePlanRepository;
 import logit.logit_backend.repository.CourseRepository;
 import logit.logit_backend.repository.UserRepository;
 import logit.logit_backend.util.LogitUtils;
@@ -23,10 +24,12 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final CoursePlanRepository coursePlanRepository;
 
-    public CourseService(CourseRepository courseRepository, UserRepository userRepository) {
+    public CourseService(CourseRepository courseRepository, UserRepository userRepository, CoursePlanRepository coursePlanRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.coursePlanRepository = coursePlanRepository;
     }
 
     public Course createCourse(CreateCourseForm form, String userLoginId) {
@@ -79,13 +82,18 @@ public class CourseService {
         }
 
         for (Course c : courses) {
+            Long courseId = c.getCourseId();
+            int planCnt = coursePlanRepository.countByCourseId_CourseId(courseId);
+
+            System.out.println("PlanCnt" + planCnt);
+
             String imageField = c.getCourseImage();
             List<String> images = List.of();
 
             if (imageField != null && !imageField.isEmpty()) {
                 images = LogitUtils.encodeImagesBase64(imageField);
             }
-            CourseAll.add(new GetCourseForm(c, images));
+            CourseAll.add(new GetCourseForm(c, images, planCnt));
         }
         return CourseAll;
     }
