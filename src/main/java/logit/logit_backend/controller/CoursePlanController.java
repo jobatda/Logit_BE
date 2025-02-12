@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import logit.logit_backend.controller.form.CreateCoursePlanForm;
 import logit.logit_backend.controller.form.GetCourseForm;
 import logit.logit_backend.controller.form.GetCoursePlanForm;
@@ -26,6 +27,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/course-plan")
+@Tag(name = "CoursePlan", description = "여행로드맵 API")
 public class CoursePlanController {
     private final CoursePlanService coursePlanService;
     private final String UPLOAD_DIR = "/app/uploads/image/course/";

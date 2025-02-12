@@ -28,7 +28,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/meeting")
-@Tag(name = "Meeting", description = "Meeting API")
+@Tag(name = "Meeting", description = "번개 API")
 public class MeetingController {
 
     private final MeetingService meetingService;

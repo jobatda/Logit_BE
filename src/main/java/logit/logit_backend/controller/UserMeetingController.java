@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/user-meeting")
-@Tag(name = "UserMeeting", description = "UserMeeting API")
+@Tag(name = "UserMeeting", description = "번개신청 API")
 public class UserMeetingController {
     private final UserMeetingService userMeetingService;
 

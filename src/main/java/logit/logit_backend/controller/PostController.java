@@ -28,7 +28,7 @@ import java.util.NoSuchElementException;
 
 @RequestMapping("/post")
 @RestController
-@Tag(name = "Post", description = "Post API")
+@Tag(name = "Post", description = "피드 / 축제 / 체험 API")
 public class PostController {
     private final PostService postService;
     private final String UPLOAD_DIR = "/app/uploads/image/post/";

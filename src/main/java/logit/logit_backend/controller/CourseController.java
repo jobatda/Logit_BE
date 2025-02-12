@@ -6,12 +6,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import logit.logit_backend.controller.form.CreateCourseForm;
 import logit.logit_backend.controller.form.GetCourseForm;
-import logit.logit_backend.controller.form.GetMeetingForm;
 import logit.logit_backend.domain.Course;
 import logit.logit_backend.service.CourseService;
-import logit.logit_backend.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,15 +27,14 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/course")
+@Tag(name = "Course", description = "여행로드맵 API")
 public class CourseController {
     private final CourseService courseService;
     private final String UPLOAD_DIR = "/app/uploads/image/course/";
-    private final MeetingService meetingService;
 
     @Autowired
-    public CourseController(CourseService courseService, MeetingService meetingService) {
+    public CourseController(CourseService courseService) {
         this.courseService = courseService;
-        this.meetingService = meetingService;
     }
 
     @Operation(summary = "Create Course", description = " 마이페이지-AI여행플랜 목록생성")
