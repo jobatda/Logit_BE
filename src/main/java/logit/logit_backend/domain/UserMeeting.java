@@ -13,7 +13,7 @@ public class UserMeeting {
     private Long userMeetingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "login_id")
+    @JoinColumn(name = "user_login_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
