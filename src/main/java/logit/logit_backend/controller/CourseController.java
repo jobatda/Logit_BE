@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@Controller
+@RestController
 @RequestMapping("/course")
 public class CourseController {
     private final CourseService courseService;
