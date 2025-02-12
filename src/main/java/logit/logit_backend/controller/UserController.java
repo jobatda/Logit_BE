@@ -55,23 +55,23 @@ public class UserController {
                     schema = @Schema(example = "{ \"error\": \"message\" }")
             )),
     }) // Swagger 문서 작성
-    @PatchMapping(value = "/{loginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/{userLoginId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> updateUser(
-            @PathVariable String loginId,
+            @PathVariable String userLoginId,
             @RequestPart(value = "userImg", required = false) MultipartFile userImg,
             @ModelAttribute UpdateUserForm form) {
         try {
             String imgPath = null;
 
             if (userImg != null && !userImg.isEmpty()) {
-                imgPath = UPLOAD_DIR + loginId + "_" + userImg.getOriginalFilename();
+                imgPath = UPLOAD_DIR + userLoginId + "_" + userImg.getOriginalFilename();
                 userImg.transferTo(new File(imgPath));
             }
-            userService.update(form, imgPath, loginId);
+            userService.update(form, imgPath, userLoginId);
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(Map.of("userLoginId", loginId));
+                    .body(Map.of("userLoginId", userLoginId));
         } catch (IOException e) {
             return ResponseEntity
                     .internalServerError()
