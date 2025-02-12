@@ -105,7 +105,7 @@ public class MeetingController {
             return ResponseEntity.ok(allMeetings);
         } catch (HttpClientErrorException e) {
             return ResponseEntity
-                    .status(e.getStatusCode())
+                    .status(HttpStatus.OK)
                     .body(List.of(new GetMeetingForm()));
         } catch (IOException e) {
             return ResponseEntity
