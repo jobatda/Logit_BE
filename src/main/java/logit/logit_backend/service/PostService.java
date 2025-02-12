@@ -20,8 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+
+import static java.nio.file.Files.readAllBytes;
 
 @Service
 @Transactional
@@ -87,12 +90,20 @@ public class PostService {
         for (Post post : PostCategoryList) {
             String imageField = post.getPostContentImage();
             List<String> images = List.of();
+            User user = userRepository.findByUserLoginId(post.getUser().getUserLoginId()).orElseThrow();
+            byte[] image = readAllBytes(new File(user.getUserImagePath()).toPath());
 
             if (imageField != null && !imageField.isEmpty()) {
                 images = LogitUtils.encodeImagesBase64(imageField);
             }
 
-            allPostsCategory.add(new GetPostForm(post,images));
+            allPostsCategory.add(new GetPostForm(
+                    post,
+                    user.getUserName(),
+                    Base64.getEncoder().encodeToString(image),
+                    images
+                    )
+            );
         }
         return allPostsCategory;
     }
@@ -100,12 +111,18 @@ public class PostService {
     public GetPostForm getPostByPostId(Long postId) throws IOException{
         Post post = postRepository.findByPostId(postId).orElseThrow();
         String imageField = post.getPostContentImage();
+        User user = userRepository.findByUserLoginId(post.getUser().getUserLoginId()).orElseThrow();
+        byte[] image = readAllBytes(new File(user.getUserImagePath()).toPath());
 
         if (imageField != null && !imageField.isEmpty()) {
-            return new GetPostForm(post, LogitUtils.encodeImagesBase64(imageField));
+            return new GetPostForm(
+                    post,
+                    user.getUserName(),
+                    Base64.getEncoder().encodeToString(image),
+                    LogitUtils.encodeImagesBase64(imageField));
         }
 
-        return new GetPostForm(post, List.of());
+        return new GetPostForm(post, "", "", List.of());
     }
 
     public List<GetPostImgForm> getPostImgByUserId(Long userLoginId) throws IOException{

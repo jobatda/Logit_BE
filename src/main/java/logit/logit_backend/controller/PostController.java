@@ -137,6 +137,7 @@ public class PostController {
     @GetMapping(value = "/postId/{postId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPostByPostId(@PathVariable Long postId){
         try{
+
             GetPostForm getPostByPostIdOne = postService.getPostByPostId(postId);
             return ResponseEntity.ok(getPostByPostIdOne);
 

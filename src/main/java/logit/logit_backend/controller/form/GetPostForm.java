@@ -10,7 +10,8 @@ import java.util.List;
 
 @Getter @Setter
 public class GetPostForm {
-    private Long userId;
+    private String userName;
+    private String userImage;
     private Long postId;
     private String postTitle;
     private String postContent;
@@ -21,8 +22,9 @@ public class GetPostForm {
     private int postTravelNum;
 
 
-    public GetPostForm(Post post, List<String> images) {
-        this.userId = post.getUser().getUserId();
+    public GetPostForm(Post post, String userName, String userImage, List<String> images) {
+        this.userName = userName;
+        this.userImage = userImage;
         this.postId = post.getPostId();
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
