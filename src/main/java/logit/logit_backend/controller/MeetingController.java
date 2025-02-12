@@ -22,10 +22,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @RestController
 @RequestMapping("/meeting")
@@ -33,7 +30,7 @@ import java.util.NoSuchElementException;
 public class MeetingController {
 
     private final MeetingService meetingService;
-    private final String UPLOAD_DIR = "/app/uploads/image/meeting/";
+    private final String UPLOAD_DIR = "./uploads/image/meeting/";
 
     @Autowired
     public MeetingController(MeetingService meetingService) {
@@ -109,7 +106,7 @@ public class MeetingController {
         } catch (HttpClientErrorException e) {
             return ResponseEntity
                     .status(e.getStatusCode())
-                    .body(new ArrayList<GetMeetingForm>());
+                    .body(List.of(new GetMeetingForm()));
         } catch (IOException e) {
             return ResponseEntity
                     .internalServerError()
