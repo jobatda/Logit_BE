@@ -1,5 +1,7 @@
 package logit.logit_backend.controller;
-
+import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import logit.logit_backend.controller.form.PostCourseForm;
 import logit.logit_backend.domain.Course;
 import logit.logit_backend.service.CourseService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,12 +25,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/course")
 @Tag(name = "Course", description = "여행로드맵 API")
 public class CourseController {
     private final CourseService courseService;
+    private final static Logger logger = LoggerFactory.getLogger(CourseController.class);
     private final String UPLOAD_DIR = "/app/uploads/image/course/";
 
     @Autowired
@@ -58,6 +63,7 @@ public class CourseController {
             @RequestBody PostCourseForm form) {
         try {
 
+            logger.info("Received request: {}", form);
             Course course = courseService.createCourse(form);
 
             return ResponseEntity
