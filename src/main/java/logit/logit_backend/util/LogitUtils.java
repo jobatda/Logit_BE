@@ -17,13 +17,15 @@ public class LogitUtils {
     public static List<String> encodeImagesBase64(String imageField) throws IOException {
         List<String> images = new ArrayList<>();
         String[] imagePaths;
+        String[] result;
         String Base64EncodedImage;
 
         imagePaths = imageField.split("\n");
         for (String imagePath : imagePaths) {
             byte[] image = readAllBytes(new File(imagePath).toPath());
             Base64EncodedImage = Base64.getEncoder().encodeToString(image);
-            images.add(Base64EncodedImage);
+            result = Base64EncodedImage.split(",");
+            images.add(result.length == 1 ? result[0] : result[1]);
         }
 
         return images;

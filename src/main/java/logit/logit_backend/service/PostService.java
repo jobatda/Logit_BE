@@ -127,7 +127,6 @@ public class PostService {
 
             if (imagePath != null && !imagePath.isEmpty()) {
                 images = LogitUtils.encodeImagesBase64(imagePath);
-                images.add(imagePath);
             }
 
             allPostImg.add(new GetPostImgForm(post.getPostId(), images));
