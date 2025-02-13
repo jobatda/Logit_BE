@@ -1,5 +1,6 @@
 package logit.logit_backend.service;
 
+import logit.logit_backend.controller.form.GetUserMap;
 import logit.logit_backend.controller.form.UpdateUserForm;
 import logit.logit_backend.controller.form.UpdateUserMapForm;
 import logit.logit_backend.domain.User;
@@ -13,8 +14,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
+
+import static java.nio.file.Files.readAllBytes;
 
 @Service
 @Transactional
@@ -61,5 +66,26 @@ public class UserService {
         }
 
         userRepository.save(user);
+    }
+
+    public List<GetUserMap> getMap(String userLoginId) throws IOException {
+        User user = userRepository.findByUserLoginId(userLoginId).orElseThrow();
+        String[] userMapContents = user.getUserMap().split("\n");
+        List<GetUserMap> userMapList = new ArrayList<>();
+
+        for (String content : userMapContents) {
+            String[] details = content.split(":");
+            String region = details[0];
+            String background = null;
+
+            if (details[1].substring(0, 2).equals("/a")) {
+                byte[] image = readAllBytes(new File(details[1]).toPath());
+                background = Base64.getEncoder().encodeToString(image);
+            }
+
+            userMapList.add(new GetUserMap(region, background));
+        }
+
+        return userMapList;
     }
 }

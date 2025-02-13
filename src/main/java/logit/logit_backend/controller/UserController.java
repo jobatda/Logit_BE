@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import logit.logit_backend.controller.form.GetUserMap;
 import logit.logit_backend.controller.form.UpdateUserForm;
 import logit.logit_backend.controller.form.UpdateUserMapForm;
 import logit.logit_backend.service.UserService;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -85,7 +87,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Update user profile", description = "여행지도 - 색칠, 이미지저장")
+    @Operation(summary = "Update user map", description = "여행지도 - 색칠, 이미지저장")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
@@ -114,4 +116,40 @@ public class UserController {
                 .status(HttpStatus.OK)
                 .body(Map.of("userLoginId", userLoginId));
     }
+
+    @Operation(summary = "Get user map", description = "여행지도 - 가져오기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"userLoginId\": \"user123\" }")
+                    )),
+            @ApiResponse(responseCode = "404", description = "해당 ID의 유저가 존재하지 않습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
+    @GetMapping(value = "/map/{userLoginId}")
+    public ResponseEntity<?> getUserMap(
+            @PathVariable String userLoginId
+    ) {
+        try {
+            List<GetUserMap> userMapList = userService.getMap(userLoginId);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(Map.of("userLoginId", userLoginId));
+        } catch (IOException e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 }
+

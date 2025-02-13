@@ -31,7 +31,7 @@ public class GetPostForm {
     public GetPostForm(Post post, List<String> images, User user) throws IOException {
         byte[] image = readAllBytes(new File(user.getUserImagePath()).toPath());
 
-        this.userLoginId = user.getUserLoginId();
+        this.userLoginId = user.getUserName();
         this.userImage = Base64.getEncoder().encodeToString(image);
         this.postId = post.getPostId();
         this.postTitle = post.getPostTitle();
