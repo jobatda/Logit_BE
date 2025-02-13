@@ -16,14 +16,14 @@ public class ParserUtils {
         String day = "";
 
         for (CourseDayForm form : forms) {
-            day += "category:" + form.get카테고리();
-            day += ",name:" + form.get장소명();
-            day += ",address:" + form.get주소();
+            day += "category:" + form.getCategory();
+            day += ",name:" + form.getPlaceName();
+            day += ",address:" + form.getAddress();
             if (form.getImgUrl() != null && !form.getImgUrl().isEmpty()) {
                 downloadImage(form.getImgUrl(),
                         "/app/uploads/image/course",
-                        "id111_" + form.get주소());
-                day += ",imageUrl:" + "/app/uploads/image/course/id111_" + form.get주소();
+                        "id111_" + form.getAddress());
+                day += ",imageUrl:" + "/app/uploads/image/course/id111_" + form.getAddress();
             } else {
                 day += ",imageUrl:" + "/app/uploads/image/course/test.png";
             }
