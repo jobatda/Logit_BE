@@ -210,7 +210,7 @@ public class PostController {
                     )),
     }) // Swagger 문서 작성
     @GetMapping(value = "/title/{title}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchMeetingsByTitle(@PathVariable String title) {
+    public ResponseEntity<?> searchPostsByTitle(@PathVariable String title) {
         try {
             List<GetPostForm> posts = postService.getPostsByTitle(title);
 
