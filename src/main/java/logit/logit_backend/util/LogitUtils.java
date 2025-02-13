@@ -43,10 +43,10 @@ public class LogitUtils {
 
     public static void saveUserMapImage(User user,
                                         UpdateUserMapForm form,
-                                        String mapColor,
+                                        String base64File,
                                         String UPLOAD_DIR) {
-        String filename = user.getUserLoginId() + "_" + mapColor + ".png";
-        byte[] imageBytes = Base64.getDecoder().decode(mapColor);
+        String filename = user.getUserLoginId() + "_" + form.getRegion() + ".png";
+        byte[] imageBytes = Base64.getDecoder().decode(base64File);
         File file = new File(UPLOAD_DIR + filename);
         String userMap = user.getUserMap();
 

@@ -40,7 +40,7 @@ public class User {
     @Column(name = "user_temperature", nullable = false, columnDefinition = "INT DEFAULT 36")
     private int userTemperature = 36;
 
-    @Column(name = "user_map")
+    @Column(name = "user_map", length = 4000)
     private String userMap;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
