@@ -20,12 +20,13 @@ public class MemberForm {
     @JsonProperty("isHost")
     private boolean isHost;
 
-    public MemberForm(User user, String userImage, String mbti, boolean isHost) {
+    public MemberForm(User user, String userImage, String mbti) {
+
         this.userName = user.getUserName();
         this.userAge = user.getUserAge();
         this.userSex = user.getUserSex();
         this.userImage = userImage;
         this.mbti = mbti;
-        this.isHost = isHost;
+        //this.isHost = isHost;
     }
 }

@@ -7,13 +7,14 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter
-public class GetUserMeetingForm {
+public class GetMeetingDetailForm {
 
-    private List<MemberForm> members;
+    private Long meetingId;
+    private List<MemberForm> members; // 참여 인원
     private Integer nowCnt;
     private Integer maxCnt;
 
-    public GetUserMeetingForm(List<MemberForm> members, Meeting meeting) {
+    public GetMeetingDetailForm(List<MemberForm> members, Meeting meeting) {
         this.members = members;
         this.nowCnt = meeting.getMeetingNowCnt();
         this.maxCnt = meeting.getMeetingMaxCnt();
