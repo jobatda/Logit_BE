@@ -9,10 +9,10 @@ import java.util.List;
 @Getter @Setter
 public class GetPostImgForm {
     private Long postId;
-    private String postContentImage;
+    private List<String> postContentImage;
 
-    public GetPostImgForm(Post post) {
-        this.postId = post.getPostId();
-        this.postContentImage = post.getPostContentImage();
+    public GetPostImgForm(Long postId, List<String> postContentImage) {
+        this.postId = postId;
+        this.postContentImage = postContentImage;
     }
 }

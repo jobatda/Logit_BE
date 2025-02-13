@@ -104,7 +104,7 @@ public class MeetingService {
         List<GetMeetingForm> allMeetings = new ArrayList<>();
 
         if (meetings.isEmpty()) {
-            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
+            throw new HttpClientErrorException(HttpStatus.NO_CONTENT);
         }
         for (Meeting m : meetings) {
             String imageField = m.getMeetingContentImage();

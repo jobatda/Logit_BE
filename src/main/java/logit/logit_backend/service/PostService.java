@@ -20,8 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+
+import static java.nio.file.Files.readAllBytes;
 
 @Service
 @Transactional
@@ -39,9 +42,9 @@ public class PostService {
         User user = userRepository.findByUserLoginId(loginId).orElseThrow();
 
         if (form.getPostCategory() != null &&
-            form.getPostLocation() != null &&
-            form.getPostTitle() != null &&
-            form.getPostContent() != null) {
+                form.getPostLocation() != null &&
+                form.getPostTitle() != null &&
+                form.getPostContent() != null) {
             post.setPostCategory(form.getPostCategory());
             post.setPostLocation(form.getPostLocation());
             post.setPostTitle(form.getPostTitle());
@@ -92,7 +95,10 @@ public class PostService {
                 images = LogitUtils.encodeImagesBase64(imageField);
             }
 
-            allPostsCategory.add(new GetPostForm(post,images));
+            allPostsCategory.add(new GetPostForm(
+                    post,
+                    images,
+                    post.getUser()));
         }
         return allPostsCategory;
     }
@@ -102,7 +108,7 @@ public class PostService {
         String imageField = post.getPostContentImage();
 
         if (imageField != null && !imageField.isEmpty()) {
-            return new GetPostForm(post, LogitUtils.encodeImagesBase64(imageField));
+            return new GetPostForm(post, LogitUtils.encodeImagesBase64(imageField), post.getUser());
         }
 
         return new GetPostForm(post, List.of());
@@ -112,20 +118,18 @@ public class PostService {
         List<Post> PostList = postRepository.getPostImgByUserId(userLoginId);
         List<GetPostImgForm> allPostImg = new ArrayList<>();
 
-
         if(PostList.isEmpty()){
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
         }
         for (Post post : PostList) {
-            String imageField = post.getPostContentImage();
+            String imagePath = post.getPostContentImage();
             List<String> images = List.of();
 
-            if (imageField != null && !imageField.isEmpty()) {
-                images = LogitUtils.encodeImagesBase64(imageField);
-                images.add(imageField);
+            if (imagePath != null && !imagePath.isEmpty()) {
+                images = LogitUtils.encodeImagesBase64(imagePath);
             }
 
-            allPostImg.add(new GetPostImgForm(post));
+            allPostImg.add(new GetPostImgForm(post.getPostId(), images));
         }
         return allPostImg;
     }
@@ -153,30 +157,3 @@ public class PostService {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

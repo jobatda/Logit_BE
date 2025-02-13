@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -33,5 +34,17 @@ public class GetMeetingForm {
         this.meetingLocation = meeting.getMeetingLocation();
 //        this.meetingHostId = meeting.getMeetingHostId();
         this.meetingContentImage = images;
+    }
+
+    public GetMeetingForm() {
+        meetingId = 0L;
+        meetingTitle = "";
+        meetingContent = "";
+        meetingStartDate = LocalDate.ofEpochDay(0);
+        meetingEndDate = LocalDate.ofEpochDay(0);
+        meetingNowCnt = 0;
+        meetingMaxCnt = 0;
+        meetingLocation = "";
+        meetingContentImage = new ArrayList<>();
     }
 }
