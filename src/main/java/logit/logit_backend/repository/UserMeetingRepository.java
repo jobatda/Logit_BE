@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface UserMeetingRepository extends JpaRepository<UserMeeting, Long> {
 
-    List<UserMeeting> findByMeeting(Meeting meeting);
+    //List<UserMeeting> findByMeeting(Meeting meeting);
+    List<UserMeeting> findByMeeting_MeetingId(Long meetingId);
 }

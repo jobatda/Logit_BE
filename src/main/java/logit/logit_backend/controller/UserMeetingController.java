@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import logit.logit_backend.controller.form.CreateUserMeetingForm;
-import logit.logit_backend.controller.form.GetUserMeetingForm;
+import logit.logit_backend.controller.form.GetMeetingDetailForm;
 import logit.logit_backend.service.UserMeetingService;
 import logit.logit_backend.domain.UserMeeting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -68,7 +67,7 @@ public class UserMeetingController {
             @ApiResponse(responseCode = "200", description = "성공",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = GetUserMeetingForm.class)
+                            schema = @Schema(implementation = GetMeetingDetailForm.class)
                     )),
             @ApiResponse(responseCode = "404", description = "번개를 찾을수 없습니다.",
                     content = @Content(
@@ -85,7 +84,7 @@ public class UserMeetingController {
     public ResponseEntity<?> getMembers(@PathVariable Long meetingId) {
         try {
 
-            GetUserMeetingForm form = userMeetingService.getMembersByMeetingId(meetingId);
+            GetMeetingDetailForm form = userMeetingService.getMembersByMeetingId(meetingId);
             return ResponseEntity.ok(form);
 
         } catch (NoSuchElementException e) {

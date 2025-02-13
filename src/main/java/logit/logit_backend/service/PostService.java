@@ -115,13 +115,13 @@ public class PostService {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
         }
         for (Post post : PostList) {
-            //String imageField = post.getPostContentImage();
-            //List<String> images = List.of();
+            String imageField = post.getPostContentImage();
+            List<String> images = List.of();
 
-            //if (imageField != null && !imageField.isEmpty()) {
-            //    images = LogitUtils.encodeImagesBase64(imageField);
-            //    images.add(imageField);
-            //}
+            if (imageField != null && !imageField.isEmpty()) {
+                images = LogitUtils.encodeImagesBase64(imageField);
+                images.add(imageField);
+            }
 
             allPostImg.add(new GetPostImgForm(post));
         }
