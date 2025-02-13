@@ -45,4 +45,7 @@ public class Meeting {
 
     @OneToMany(mappedBy = "meeting", fetch = FetchType.LAZY)
     private List<UserMeeting> userMeetings = new ArrayList<>();
+
+    @Column(name = "course_id_by_meeting")
+    private Long courseIdByMeeting;
 }
