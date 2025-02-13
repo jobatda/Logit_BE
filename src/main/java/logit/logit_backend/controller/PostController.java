@@ -190,4 +190,39 @@ public class PostController {
         }
     }
 
+
+    @Operation(summary = "Get posts by title", description = "피드 홈 - 제목으로 검색")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = GetPostForm.class))
+                    )),
+            @ApiResponse(responseCode = "404", description = "title 과 일치하는 게시물이 존재하지 않습니다.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+            @ApiResponse(responseCode = "500", description = "서버 오류 발생",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(example = "{ \"error\": \"message\" }")
+                    )),
+    }) // Swagger 문서 작성
+    @GetMapping(value = "/title/{title}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchMeetingsByTitle(@PathVariable String title) {
+        try {
+            List<GetPostForm> posts = postService.getPostsByTitle(title);
+
+            return ResponseEntity.ok(posts);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (IOException e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 }

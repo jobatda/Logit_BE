@@ -1,8 +1,10 @@
 package logit.logit_backend.service;
 
 import logit.logit_backend.controller.form.CreatePostForm;
+import logit.logit_backend.controller.form.GetMeetingForm;
 import logit.logit_backend.controller.form.GetPostForm;
 import logit.logit_backend.controller.form.GetPostImgForm;
+import logit.logit_backend.domain.Meeting;
 import logit.logit_backend.domain.Post;
 import logit.logit_backend.domain.PostCategory;
 import logit.logit_backend.domain.User;
@@ -126,6 +128,27 @@ public class PostService {
             allPostImg.add(new GetPostImgForm(post));
         }
         return allPostImg;
+    }
+
+    // 특정 검색어 제목 모임 조회
+    public List<GetPostForm> getPostsByTitle(String title) throws IOException {
+        List<Post> posts = postRepository.findByPostTitleContaining(title);
+        List<GetPostForm> allPosts = new ArrayList<>();
+
+        if (posts.isEmpty()) {
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
+        }
+        for (Post ps : posts) {
+            String imageField = ps.getPostContentImage();
+            List<String> images = List.of();
+
+            if (imageField != null && !imageField.isEmpty()) {
+                images = LogitUtils.encodeImagesBase64(imageField);
+            }
+            allPosts.add(new GetPostForm(ps, images));
+        }
+
+        return allPosts;
     }
 
 

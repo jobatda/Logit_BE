@@ -16,4 +16,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT p FROM Post p WHERE p.user.userId = :userId")
     List<Post> getPostImgByUserId(@Param("userId") Long userId);
+
+    List<Post> findByPostTitleContaining(String postTitle);
 }
