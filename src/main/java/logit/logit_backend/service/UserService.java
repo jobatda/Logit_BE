@@ -81,7 +81,7 @@ public class UserService {
             System.out.println(details[1].substring(0, 2));
             if (details[1].substring(0, 2).equals("/a")) {
                 byte[] image = readAllBytes(new File(details[1]).toPath());
-                background = Base64.getEncoder().encodeToString(image);
+                background = "data:image/png;base64," + Base64.getEncoder().encodeToString(image);
             }
 
             userMapList.add(new GetUserMap(region, background));
