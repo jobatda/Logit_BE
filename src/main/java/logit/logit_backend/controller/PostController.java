@@ -100,7 +100,7 @@ public class PostController {
                     )),
     }) // Swagger 문서 작성
     @GetMapping(value = {"/category/{category}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPostsByCategory(@PathVariable  PostCategory category) {
+    public ResponseEntity<?> getPostsByCategory(@PathVariable PostCategory category) {
         try {
             List<GetPostForm> PostCategoryList = postService.getPostByCategory(category);
 
@@ -172,19 +172,17 @@ public class PostController {
                     )),
     }) // Swagger 문서 작성
     @GetMapping(value = {"/userLoginId/{userLoginId}"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPostImgByUserId(@PathVariable Long userLoginId ) {
+    public ResponseEntity<?> getPostImgByUserId(@PathVariable Long userLoginId) {
         try {
             List<GetPostImgForm> getPostImgeList = postService.getPostImgByUserId(userLoginId);
 
             return ResponseEntity.ok(getPostImgeList);
         } catch (NoSuchElementException e) {
-             System.out.println("NoSuchElementException");
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", e.getMessage()));
 
         } catch (IOException e) {
-            System.out.println("IOException");
             return ResponseEntity
                     .internalServerError()
                     .body(Map.of("error", e.getMessage()));
