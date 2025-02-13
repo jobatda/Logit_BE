@@ -144,7 +144,7 @@ public class UserController {
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(Map.of("userLoginId", userLoginId));
+                    .body(userMapList);
         } catch (IOException e) {
             return ResponseEntity
                     .internalServerError()
