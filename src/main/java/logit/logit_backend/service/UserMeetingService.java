@@ -67,13 +67,13 @@ public class UserMeetingService {
                     new MemberForm(
                             user,
                             Base64.getEncoder().encodeToString(image),
-
-                            u.getUserMeetingMbti()
+                            u.getUserMeetingMbti(),
+                            u.getUser().getUserLoginId().equals(meeting.getMeetingHostId())?true:false
                     )
 
             );
         }
 
-        return new GetMeetingDetailForm(memberForms, meeting);
+        return new GetMeetingDetailForm(meetingId, memberForms, meeting);
     }
 }
