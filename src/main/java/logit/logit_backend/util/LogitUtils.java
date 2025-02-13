@@ -60,7 +60,7 @@ public class LogitUtils {
             user.setUserMap(filename);
         } else {
             user.setUserMap(
-                    userMap + "\n" + filename
+                    userMap + "\n" + form.getRegion() + ":" + UPLOAD_DIR + filename
             );
         }
     }

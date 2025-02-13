@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -92,7 +93,10 @@ public class PostService {
                 images = LogitUtils.encodeImagesBase64(imageField);
             }
 
-            allPostsCategory.add(new GetPostForm(post,images));
+            allPostsCategory.add(new GetPostForm(
+                    post,
+                    images,
+                    post.getUser()));
         }
         return allPostsCategory;
     }
@@ -102,7 +106,7 @@ public class PostService {
         String imageField = post.getPostContentImage();
 
         if (imageField != null && !imageField.isEmpty()) {
-            return new GetPostForm(post, LogitUtils.encodeImagesBase64(imageField));
+            return new GetPostForm(post, LogitUtils.encodeImagesBase64(imageField), post.getUser());
         }
 
         return new GetPostForm(post, List.of());
