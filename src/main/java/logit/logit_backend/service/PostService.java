@@ -24,6 +24,8 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
+import static java.nio.file.Files.readAllBytes;
+
 @Service
 @Transactional
 public class PostService {
@@ -116,20 +118,19 @@ public class PostService {
         List<Post> PostList = postRepository.getPostImgByUserId(userLoginId);
         List<GetPostImgForm> allPostImg = new ArrayList<>();
 
-
         if(PostList.isEmpty()){
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "찾을 수 없습니다");
         }
         for (Post post : PostList) {
-            String imageField = post.getPostContentImage();
+            String imagePath = post.getPostContentImage();
             List<String> images = List.of();
 
-            if (imageField != null && !imageField.isEmpty()) {
-                images = LogitUtils.encodeImagesBase64(imageField);
-                images.add(imageField);
+            if (imagePath != null && !imagePath.isEmpty()) {
+                images = LogitUtils.encodeImagesBase64(imagePath);
+                images.add(imagePath);
             }
 
-            allPostImg.add(new GetPostImgForm(post));
+            allPostImg.add(new GetPostImgForm(post.getPostId(), images));
         }
         return allPostImg;
     }
