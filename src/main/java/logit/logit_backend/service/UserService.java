@@ -76,8 +76,9 @@ public class UserService {
         for (String content : userMapContents) {
             String[] details = content.split(":");
             String region = details[0];
-            String background = null;
+            String background = details[1];
 
+            System.out.println(details[1].substring(0, 2));
             if (details[1].substring(0, 2).equals("/a")) {
                 byte[] image = readAllBytes(new File(details[1]).toPath());
                 background = Base64.getEncoder().encodeToString(image);
